@@ -1,131 +1,86 @@
 import React, { useState } from "react";
 import "./App.css";
 
-function App() {
-  // Display zeigt stets die aktuelle Eingabe oder das Ergebnis
-  const [display, setDisplay] = useState("0");
-
-  // Speichert die erste Zahl, Operator und den Zustand, ob wir gerade "auf die zweite Zahl warten"
-  const [firstOperand, setFirstOperand] = useState(null);
+function Taschenrechner() {
+  const [anzeige, setAnzeige] = useState("0");
+  const [ersterWert, setErsterWert] = useState(null);
   const [operator, setOperator] = useState(null);
 
-  // Beim Klick auf eine Ziffer
-  const handleNumberClick = (digit) => {
-    // Wenn display aktuell "0" ist, ersetzen wir es durch die neue Ziffer
-    if (display === "0") {
-      setDisplay(String(digit));
-    } else {
-      // Ansonsten hängen wir die Ziffer an
-      setDisplay(display + digit);
-    }
+  const nummerEingeben = (nummer) => {
+    setAnzeige(anzeige === "0" ? String(nummer) : anzeige + nummer);
   };
 
-  // Dezimalpunkt (.)
-  const handleDecimal = () => {
-    // Nur hinzufügen, wenn noch kein '.' existiert
-    if (!display.includes(".")) {
-      setDisplay(display + ".");
-    }
+  const dezimalEingeben = () => {
+    if (!anzeige.includes(".")) setAnzeige(anzeige + ".");
   };
 
-  // Operator-Klick (+, -, ×, ÷)
-  const handleOperatorClick = (op) => {
-    // Ersten Operanden merken (Zahl im Display)
-    setFirstOperand(parseFloat(display));
-    // Operator merken
+  const operatorSetzen = (op) => {
+    setErsterWert(parseFloat(anzeige));
     setOperator(op);
-    // Display zurücksetzen, damit wir die zweite Zahl eingeben können
-    setDisplay("0");
+    setAnzeige("0");
   };
 
-  // Gleichheitszeichen "="
-  const handleEquals = () => {
-    if (operator && firstOperand !== null) {
-      const secondOperand = parseFloat(display);
-      let result = firstOperand;
+  const berechnen = () => {
+    if (operator && ersterWert !== null) {
+      const zweiterWert = parseFloat(anzeige);
+      let ergebnis = ersterWert;
 
       switch (operator) {
-        case "+":
-          result = firstOperand + secondOperand;
-          break;
-        case "-":
-          result = firstOperand - secondOperand;
-          break;
-        case "×":
-          result = firstOperand * secondOperand;
-          break;
+        case "+": ergebnis = ersterWert + zweiterWert; break;
+        case "-": ergebnis = ersterWert - zweiterWert; break;
+        case "×": ergebnis = ersterWert * zweiterWert; break;
         case "÷":
-          if (secondOperand === 0) {
+          if (zweiterWert === 0) {
             alert("Division durch 0 ist nicht möglich!");
             return;
           }
-          result = firstOperand / secondOperand;
+          ergebnis = ersterWert / zweiterWert;
           break;
-        default:
-          break;
+        default: break;
       }
 
-      // Ergebnis im Display anzeigen
-      setDisplay(String(result));
-      // Ergebnis wird zum neuen firstOperand, sodass wir weiterrechnen können
-      setFirstOperand(result);
+      setAnzeige(String(ergebnis));
+      setErsterWert(ergebnis);
       setOperator(null);
     }
   };
 
-  // Backspace: letzte Ziffer löschen
-  const handleBackspace = () => {
-    if (display.length === 1 || (display.length === 2 && display.startsWith("-"))) {
-      // Falls nur 1 Ziffer vorhanden ist oder "-Ziffer"
-      setDisplay("0");
-    } else {
-      setDisplay(display.slice(0, -1));
-    }
+  const letzteZifferLöschen = () => {
+    setAnzeige(anzeige.length === 1 ? "0" : anzeige.slice(0, -1));
   };
 
-  // AC (All Clear): Alles zurücksetzen
-  const handleAllClear = () => {
-    setDisplay("0");
-    setFirstOperand(null);
+  const allesLöschen = () => {
+    setAnzeige("0");
+    setErsterWert(null);
     setOperator(null);
   };
 
   return (
-    <div className="calculator">
-      <h1>React Calculator</h1>
-      <div className="display">{display}</div>
-
-      <div className="buttons">
-        {/* Erste Zeile */}
-        <button onClick={handleAllClear} className="btn special">AC</button>
-        <button onClick={handleBackspace} className="btn special">⌫</button>
-        <button onClick={() => handleOperatorClick("÷")} className="btn operator">÷</button>
-        <button onClick={() => handleOperatorClick("×")} className="btn operator">×</button>
-
-        {/* Zweite Zeile */}
-        <button onClick={() => handleNumberClick("7")} className="btn">7</button>
-        <button onClick={() => handleNumberClick("8")} className="btn">8</button>
-        <button onClick={() => handleNumberClick("9")} className="btn">9</button>
-        <button onClick={() => handleOperatorClick("-")} className="btn operator">−</button>
-
-        {/* Dritte Zeile */}
-        <button onClick={() => handleNumberClick("4")} className="btn">4</button>
-        <button onClick={() => handleNumberClick("5")} className="btn">5</button>
-        <button onClick={() => handleNumberClick("6")} className="btn">6</button>
-        <button onClick={() => handleOperatorClick("+")} className="btn operator">+</button>
-
-        {/* Vierte Zeile */}
-        <button onClick={() => handleNumberClick("1")} className="btn">1</button>
-        <button onClick={() => handleNumberClick("2")} className="btn">2</button>
-        <button onClick={() => handleNumberClick("3")} className="btn">3</button>
-        <button onClick={handleEquals} className="btn equals">=</button>
-
-        {/* Fünfte Zeile */}
-        <button onClick={() => handleNumberClick("0")} className="btn zero">0</button>
-        <button onClick={handleDecimal} className="btn">.</button>
+    <div className="taschenrechner">
+      <h1>Rechner</h1>
+      <div className="anzeige">{anzeige}</div>
+      <div className="tasten">
+        <button onClick={allesLöschen} className="taste spezial">AC</button>
+        <button onClick={letzteZifferLöschen} className="taste spezial">⌫</button>
+        <button onClick={() => operatorSetzen("÷")} className="taste operator">÷</button>
+        <button onClick={() => operatorSetzen("×")} className="taste operator">×</button>
+        <button onClick={() => nummerEingeben("7")} className="taste">7</button>
+        <button onClick={() => nummerEingeben("8")} className="taste">8</button>
+        <button onClick={() => nummerEingeben("9")} className="taste">9</button>
+        <button onClick={() => operatorSetzen("-")} className="taste operator">−</button>
+        <button onClick={() => nummerEingeben("4")} className="taste">4</button>
+        <button onClick={() => nummerEingeben("5")} className="taste">5</button>
+        <button onClick={() => nummerEingeben("6")} className="taste">6</button>
+        <button onClick={() => operatorSetzen("+")} className="taste operator">+</button>
+        <button onClick={() => nummerEingeben("1")} className="taste">1</button>
+        <button onClick={() => nummerEingeben("2")} className="taste">2</button>
+        <button onClick={() => nummerEingeben("3")} className="taste">3</button>
+        <button onClick={berechnen} className="taste gleich">=</button>
+        <button onClick={() => nummerEingeben("0")} className="taste null">0</button>
+        <button onClick={dezimalEingeben} className="taste">.</button>
       </div>
     </div>
   );
 }
 
-export default App;
+export default Taschenrechner;

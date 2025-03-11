@@ -13,7 +13,7 @@ body {
   min-height: 100vh;
 }
 
-.calculator {
+.taschenrechner {
   background: white;
   margin-top: 40px;
   border-radius: 10px;
@@ -29,7 +29,7 @@ h1 {
   font-size: 1.5rem;
 }
 
-.display {
+.anzeige {
   background: #222;
   color: #fff;
   font-size: 2rem;
@@ -43,14 +43,13 @@ h1 {
   padding-right: 15px;
 }
 
-.buttons {
+.tasten {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
 }
 
-/* Buttons allgemein */
-.btn {
+.taste {
   background: #e0e0e0;
   border: none;
   color: #333;
@@ -62,36 +61,49 @@ h1 {
   transition: 0.2s;
 }
 
-.btn:hover {
+.taste:hover {
   filter: brightness(0.95);
 }
 
 .operator {
-  background: #ffcc80; /* Pastell-Orange */
+  background: #ffcc80;
 }
 
 .operator:hover {
   background: #ffc266;
 }
 
-.equals {
-  background: #90caf9; /* Pastell-Blau */
+.gleich {
+  background: #90caf9;
   grid-row: 4 / 5;
   grid-column: 4 / 5;
 }
 
-.equals:hover {
+.gleich:hover {
   background: #64b5f6;
 }
 
-.zero {
-  grid-column: 1 / 3; /* doppelte Breite für "0" */
+.null {
+  grid-column: 1 / 3;
 }
 
-.special {
-  background: #f48fb1; /* Pastell-Rosa */
+.spezial {
+  background: #f48fb1;
 }
 
-.special:hover {
+.spezial:hover {
   background: #f06292;
+}
+
+@media (max-width: 400px) {
+  .taschenrechner {
+    width: 280px;
+  }
+  .taste {
+    font-size: 1rem;
+    padding: 12px;
+  }
+  .anzeige {
+    font-size: 1.8rem;
+  }
 }
