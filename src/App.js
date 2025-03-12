@@ -36,6 +36,9 @@ function Taschenrechner() {
           }
           ergebnis = ersterWert / zweiterWert;
           break;
+        case "%":
+          ergebnis = (ersterWert * zweiterWert) / 100;
+          break;
         default: break;
       }
 
@@ -43,6 +46,10 @@ function Taschenrechner() {
       setErsterWert(ergebnis);
       setOperator(null);
     }
+  };
+
+  const prozentRechnen = () => {
+    setAnzeige(String(parseFloat(anzeige) / 100));
   };
 
   const letzteZifferLöschen = () => {
@@ -78,6 +85,7 @@ function Taschenrechner() {
         <button onClick={berechnen} className="taste gleich">=</button>
         <button onClick={() => nummerEingeben("0")} className="taste null">0</button>
         <button onClick={dezimalEingeben} className="taste">.</button>
+        <button onClick={prozentRechnen} className="taste prozent">%</button>
       </div>
     </div>
   );

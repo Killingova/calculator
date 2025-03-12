@@ -95,6 +95,14 @@ h1 {
   background: #f06292;
 }
 
+.prozent {
+  background: #a5d6a7;
+}
+
+.prozent:hover {
+  background: #81c784;
+}
+
 @media (max-width: 400px) {
   .taschenrechner {
     width: 280px;
